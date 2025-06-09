@@ -1,14 +1,20 @@
 <script setup>
 import { useAuthStore } from "./stores/auth";
 import { useThemeStore } from "./stores/theme";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { computed, onMounted, ref } from "vue";
 
 const auth = useAuthStore();
 const theme = useThemeStore();
 const router = useRouter();
+const route = useRoute();
 const isLoggedIn = computed(() => !!auth.user);
 const isSidebarCollapsed = ref(false);
+
+// Check if the current route is an authentication page (login or signup)
+const isAuthPage = computed(() => {
+  return route.path === "/login" || route.path === "/signup";
+});
 
 // Computed properties for theme-based classes
 const navbarClass = computed(() =>
@@ -151,30 +157,6 @@ onMounted(() => {
         <div class="nav-item my-1">
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
-            to="/add-task"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              fill="currentColor"
-              class="bi bi-plus-circle me-2"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-              />
-              <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-              />
-            </svg>
-            <span v-if="!isSidebarCollapsed">Add Task</span>
-          </router-link>
-        </div>
-
-        <div class="nav-item my-1">
-          <router-link
-            class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/analytics"
           >
             <svg
@@ -289,49 +271,54 @@ onMounted(() => {
 
   <!-- Public layout (for non-authenticated users) -->
   <div v-else>
-    <nav class="navbar navbar-expand-lg" :class="navbarClass">
-      <div class="container">
-        <router-link class="navbar-brand fw-bold d-flex align-items-center" to="/">
-          <img src="/vite.svg" alt="TaskFlow Logo" width="30" height="30" class="me-2" />
-          TaskFlow
-        </router-link>
+    <!-- Show navbar and footer only on landing page, not on login or signup -->
+    <template v-if="!isAuthPage">
+      <nav class="navbar navbar-expand-lg" :class="navbarClass">
+        <div class="container">
+          <router-link class="navbar-brand fw-bold d-flex align-items-center" to="/">
+            <img src="/vite.svg" alt="TaskFlow Logo" width="30" height="30" class="me-2" />
+            TaskFlow
+          </router-link>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-center">
-            <li class="nav-item">
-              <router-link class="nav-link px-3" to="/login">Log In</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="btn btn-primary ms-2" to="/signup">Sign Up</router-link>
-            </li>
-          </ul>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+              <li class="nav-item">
+                <router-link class="nav-link px-3" to="/login">Log In</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="btn btn-primary ms-2" to="/signup">Sign Up</router-link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </template>
 
     <main>
       <router-view />
     </main>
 
-    <footer class="py-4 mt-auto text-center" :class="footerClass">
-      <div class="container">
-        <p class="mb-0 small text-muted">
-          © {{ new Date().getFullYear() }} TaskFlow. All rights reserved.
-        </p>
-      </div>
-    </footer>
+    <template v-if="!isAuthPage">
+      <footer class="py-4 mt-auto text-center" :class="footerClass">
+        <div class="container">
+          <p class="mb-0 small text-muted">
+            © {{ new Date().getFullYear() }} TaskFlow. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </template>
   </div>
 </template>
 

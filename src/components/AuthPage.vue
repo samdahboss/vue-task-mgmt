@@ -1,18 +1,72 @@
 <template>
-  <div class="signup-container">
+  <div class="auth-container">
     <div class="card-container" data-aos="fade-up" data-aos-duration="1000">
       <div class="card">
         <div class="text-center mb-4">
-          <img
-            src="/vite.svg"
-            alt="TaskFlow Logo"
-            width="70"
-            class="logo-animation mb-3"
-          />
-          <h2 class="fw-bold text-gradient">Sign Up</h2>
-          <p class="text-muted">Create your free account</p>
+          <router-link to="/"
+            ><img
+              src="/vite.svg"
+              alt="TaskFlow Logo"
+              width="70"
+              class="logo-animation mb-3"
+            />
+          </router-link>
+          <h2 class="fw-bold text-gradient">{{ isLogin ? "Log In" : "Sign Up" }}</h2>
+          <p class="text-muted">
+            {{ isLogin ? "Access your account" : "Create your free account" }}
+          </p>
         </div>
+
+        <!-- Login Form -->
         <form
+          v-if="isLogin"
+          @submit.prevent="handleLogin"
+          novalidate
+          :class="{ 'was-validated': validated }"
+        >
+          <div class="form-floating mb-3" data-aos="fade-up" data-aos-delay="100">
+            <input
+              v-model="email"
+              type="email"
+              class="form-control custom-input"
+              id="email"
+              required
+              autocomplete="email"
+              placeholder="name@example.com"
+            />
+            <label for="email">Email</label>
+            <div class="invalid-feedback">Valid email is required.</div>
+          </div>
+          <div class="form-floating mb-4" data-aos="fade-up" data-aos-delay="200">
+            <input
+              v-model="password"
+              type="password"
+              class="form-control custom-input"
+              id="password"
+              required
+              minlength="6"
+              autocomplete="current-password"
+              placeholder="Password"
+            />
+            <label for="password">Password</label>
+            <div class="invalid-feedback">Password must be at least 6 characters.</div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary w-100 py-3 auth-btn"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            Log In
+          </button>
+          <div v-if="error" class="alert alert-danger mt-3" data-aos="fade">
+            {{ error }}
+          </div>
+        </form>
+
+        <!-- Signup Form -->
+        <form
+          v-else
           @submit.prevent="handleSignUp"
           novalidate
           :class="{ 'was-validated': validated }"
@@ -59,7 +113,7 @@
           </div>
           <button
             type="submit"
-            class="btn btn-primary w-100 py-3 signup-btn"
+            class="btn btn-primary w-100 py-3 auth-btn"
             data-aos="fade-up"
             data-aos-delay="400"
           >
@@ -69,11 +123,20 @@
             {{ error }}
           </div>
         </form>
-        <div class="text-center mt-4" data-aos="fade-up" data-aos-delay="500">
-          <router-link to="/login" class="login-link"
-            >Already have an account? <span class="fw-bold">Log In</span></router-link
-          >
+
+        <!-- Toggle Switch between Login and Signup -->
+        <div class="toggle-container mt-4" data-aos="fade-up" data-aos-delay="400">
+          <div class="text-center">
+            <p class="mb-2">
+              {{ isLogin ? "Don't have an account?" : "Already have an account?" }}
+            </p>
+            <button @click="toggleAuthMode" class="btn btn-link toggle-auth-btn p-0">
+              <span class="fw-bold">{{ isLogin ? "Sign Up" : "Log In" }}</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Decorative Elements -->
         <div class="decorative-shapes">
           <div class="shape shape-1"></div>
           <div class="shape shape-2"></div>
@@ -85,24 +148,104 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
+// Shared state
 const name = ref("");
 const email = ref("");
 const password = ref("");
 const error = ref("");
 const validated = ref(false);
 const router = useRouter();
+const route = useRoute();
+const auth = useAuthStore();
 
+// Check if user is already logged in, redirect to dashboard if so
+onMounted(() => {
+  if (auth.user) {
+    router.push('/dashboard');
+  }
+});
+
+// Determine initial auth mode based on route
+const isLogin = ref(route.path === "/login");
+
+// Watch for route changes to update the auth mode
+watch(
+  () => route.path,
+  (newPath) => {
+    isLogin.value = newPath === "/login";
+    resetForm();
+  }
+);
+
+// Toggle between login and signup
+const toggleAuthMode = () => {
+  isLogin.value = !isLogin.value;
+  resetForm();
+  // Update the URL without triggering a full page refresh
+  router.push(
+    {
+      path: isLogin.value ? "/login" : "/signup",
+    },
+    { replace: true }
+  );
+};
+
+// Reset form state when switching between login and signup
+const resetForm = () => {
+  name.value = "";
+  email.value = "";
+  password.value = "";
+  error.value = "";
+  validated.value = false;
+};
+
+// Handle login submission
+const handleLogin = async () => {
+  validated.value = true;
+  error.value = "";
+  if (!email.value || password.value.length < 6) return;
+
+  // Add loading state effect
+  const btn = document.querySelector(".auth-btn");
+  btn.disabled = true;
+  btn.innerHTML =
+    '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Logging in...';
+
+  try {
+    const { data } = await axios.get(
+      "https://683b92ba28a0b0f2fdc4f63d.mockapi.io/users",
+      {
+        params: { email: email.value, password: password.value },
+      }
+    );
+    if (data.length) {
+      auth.login(data[0]);
+      router.push("/dashboard");
+    } else {
+      error.value = "Invalid credentials.";
+      btn.disabled = false;
+      btn.innerHTML = "Log In";
+    }
+  } catch (e) {
+    error.value = "Login failed. Try again.";
+    btn.disabled = false;
+    btn.innerHTML = "Log In";
+  }
+};
+
+// Handle signup submission
 const handleSignUp = async () => {
   validated.value = true;
   error.value = "";
   if (!name.value || !email.value || password.value.length < 6) return;
 
   // Add loading state effect
-  const btn = document.querySelector(".signup-btn");
+  const btn = document.querySelector(".auth-btn");
   btn.disabled = true;
   btn.innerHTML =
     '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Signing up...';
@@ -113,7 +256,13 @@ const handleSignUp = async () => {
       email: email.value,
       password: password.value,
     });
+    // Switch to login after successful signup
+    isLogin.value = true;
+    resetForm();
     router.push("/login");
+    error.value = "Account created! Please log in.";
+    btn.disabled = false;
+    btn.innerHTML = "Log In";
   } catch (e) {
     error.value = "Sign up failed. Try again.";
     btn.disabled = false;
@@ -123,7 +272,7 @@ const handleSignUp = async () => {
 </script>
 
 <style scoped>
-.signup-container {
+.auth-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -212,7 +361,7 @@ const handleSignUp = async () => {
   color: var(--primary-color);
 }
 
-.signup-btn {
+.auth-btn {
   border-radius: 0.75rem;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -226,32 +375,46 @@ const handleSignUp = async () => {
   overflow: hidden;
 }
 
-.signup-btn:hover {
+.auth-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
 }
 
-.signup-btn:active {
+.auth-btn:active {
   transform: translateY(0);
 }
 
-.login-link {
-  color: var(--gray-600);
+.toggle-container {
+  position: relative;
+  z-index: 10;
+}
+
+.toggle-auth-btn {
+  color: var(--primary-color);
   text-decoration: none;
   transition: all 0.3s ease;
+  font-size: 1rem;
+  position: relative;
 }
 
-.login-link:hover {
-  color: var(--primary-color);
-}
-
-.login-link span {
+.toggle-auth-btn::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 50%;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
   transition: all 0.3s ease;
 }
 
-.login-link:hover span {
-  color: var(--primary-color);
-  text-decoration: underline;
+.toggle-auth-btn:hover::after {
+  width: 100%;
+  left: 0;
 }
 
 /* Decorative elements */
@@ -317,6 +480,11 @@ const handleSignUp = async () => {
   50% {
     transform: translate(-10px, -15px) rotate(15deg);
   }
+}
+
+/* Form transition animations */
+form {
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* Responsive adjustments */

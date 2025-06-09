@@ -38,6 +38,34 @@ body {
   min-width: 320px;
 }
 
+/* Dark mode styles */
+body.dark-theme {
+  background-color: var(--dark-color);
+  color: var(--gray-200);
+}
+
+.dark-theme .card {
+  background-color: var(--gray-800);
+  color: var(--gray-200);
+}
+
+.dark-theme .text-muted {
+  color: var(--gray-400) !important;
+}
+
+.dark-theme .bg-light {
+  background-color: var(--gray-800) !important;
+}
+
+.dark-theme .card-header.bg-transparent {
+  border-color: var(--gray-700) !important;
+}
+
+.dark-theme .card-body, 
+.dark-theme .card-header {
+  border-color: var(--gray-700);
+}
+
 #app {
   display: flex;
   flex-direction: column;

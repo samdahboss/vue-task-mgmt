@@ -26,13 +26,14 @@ export const useThemeStore = defineStore("theme", () => {
       localStorage.setItem("theme", "light");
     }
   }
-
   function applyDarkTheme() {
-    document.body.classList.add("bg-dark", "text-light");
+    document.body.classList.add("dark-theme", "bg-dark", "text-light");
+    document.documentElement.setAttribute('data-bs-theme', 'dark');
   }
 
   function applyLightTheme() {
-    document.body.classList.remove("bg-dark", "text-light");
+    document.body.classList.remove("dark-theme", "bg-dark", "text-light");
+    document.documentElement.setAttribute('data-bs-theme', 'light');
   }
 
   return {
