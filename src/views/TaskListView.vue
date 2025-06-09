@@ -13,42 +13,13 @@
           Add Task
         </button>
       </div>
-      <div v-if="tasks.length === 0" class="alert alert-info">No tasks found.</div>
-      <div v-else>
-        <div class="table-responsive">
-          <table class="table table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Priority</th>
-                <th>Due Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="task in tasks" :key="task.id">
-                <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
-                <td>
-                  <span :class="getPriorityBadgeClass(task.priority)" class="badge">{{ task.priority }}</span>
-                </td>
-                <td>{{ task.dueDate }}</td>
-                <td>
-                  <span v-if="task.completed" class="badge bg-success">Completed</span>
-                  <span v-else class="badge bg-warning text-dark">Pending</span>
-                </td>
-                <td>
-                  <button v-if="!task.completed" class="btn btn-success btn-sm me-1" @click="markComplete(task)">Complete</button>
-                  <button class="btn btn-secondary btn-sm me-1" @click="openEditTaskModal(task)">Edit</button>
-                  <button class="btn btn-danger btn-sm" @click="openDeleteConfirmation(task)">Delete</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <TaskTable 
+        :tasks="tasks" 
+        :getPriorityBadgeClass="getPriorityBadgeClass"
+        @complete="markComplete"
+        @edit="openEditTaskModal"
+        @delete="openDeleteConfirmation"
+      />
     </div>
 
     <!-- Task Form Modal for Add/Edit -->
@@ -74,8 +45,9 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useAuthStore } from '../stores/auth';
 import { useRouter } from 'vue-router';
-import TaskFormModal from './modals/TaskFormModal.vue';
-import DeleteConfirmationModal from './modals/DeleteConfirmationModal.vue';
+import TaskTable from '../components/tasks/TaskTable.vue';
+import TaskFormModal from '../components/modals/TaskFormModal.vue';
+import DeleteConfirmationModal from '../components/modals/DeleteConfirmationModal.vue';
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -191,45 +163,3 @@ const confirmDeleteTask = async (task) => {
   }
 };
 </script>
-
-<style scoped>
-.table th, .table td {
-  vertical-align: middle;
-}
-
-/* Improve contrast for dark mode */
-:deep(.dark-theme) .text-primary {
-  color: #a5b4fc !important;
-}
-
-:deep(.dark-theme) .text-success {
-  color: #86efac !important;
-}
-
-:deep(.dark-theme) .text-warning {
-  color: #fcd34d !important;
-}
-
-:deep(.dark-theme) .text-info {
-  color: #93c5fd !important;
-}
-
-:deep(.dark-theme) .text-danger {
-  color: #fca5a5 !important;
-}
-
-:deep(.dark-theme) .table {
-  color: var(--gray-300);
-}
-
-:deep(.dark-theme) .table-light {
-  background-color: var(--gray-700);
-  color: white;
-}
-
-:deep(.dark-theme) .table-bordered,
-:deep(.dark-theme) .table td,
-:deep(.dark-theme) .table th {
-  border-color: var(--gray-700);
-}
-</style>

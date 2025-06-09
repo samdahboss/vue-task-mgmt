@@ -1,22 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "./components/LandingPage.vue";
-import AuthPage from "./components/AuthPage.vue";
-import Dashboard from "./components/Dashboard.vue";
-import TaskList from "./components/TaskList.vue";
+import AuthView from "./views/AuthView.vue";
+import DashboardView from "./views/DashboardView.vue";
+import TaskListView from "./views/TaskListView.vue";
 import TaskHistory from "./components/TaskHistory.vue";
-import Settings from "./components/Settings.vue";
-import Analytics from "./components/Analytics.vue";
+import SettingsView from "./views/SettingsView.vue";
+import AnalyticsView from "./views/AnalyticsView.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
   { path: "/", component: LandingPage },
-  { path: "/signup", component: AuthPage },
-  { path: "/login", component: AuthPage },
-  { path: "/dashboard", component: Dashboard, meta: { requiresAuth: true } },
-  { path: "/tasks", component: TaskList, meta: { requiresAuth: true } },
+  { path: "/signup", component: AuthView },
+  { path: "/login", component: AuthView },
+  {
+    path: "/dashboard",
+    component: DashboardView,
+    meta: { requiresAuth: true },
+  },
+  { path: "/tasks", component: TaskListView, meta: { requiresAuth: true } },
   { path: "/history", component: TaskHistory, meta: { requiresAuth: true } },
-  { path: "/analytics", component: Analytics, meta: { requiresAuth: true } },
-  { path: "/settings", component: Settings, meta: { requiresAuth: true } },
+  {
+    path: "/analytics",
+    component: AnalyticsView,
+    meta: { requiresAuth: true },
+  },
+  { path: "/settings", component: SettingsView, meta: { requiresAuth: true } },
 ];
 
 const router = createRouter({
