@@ -533,4 +533,38 @@ onMounted(async () => {
   background-color: rgba(13, 202, 240, 0.15);
   color: #0dcaf0;
 }
+
+/* Priority color classes with better contrast */
+:deep(.priority-high) {
+  color: #ff6b6b;
+}
+
+:deep(.priority-medium) {
+  color: #5c7cfa;
+}
+
+:deep(.priority-low) {
+  color: #66d9e8;
+}
+
+/* Improve contrast for dark mode */
+:deep(.dark-theme) .text-primary {
+  color: #a5b4fc !important;
+}
+
+:deep(.dark-theme) .text-success {
+  color: #86efac !important;
+}
+
+:deep(.dark-theme) .text-warning {
+  color: #fcd34d !important;
+}
+
+:deep(.dark-theme) .text-info {
+  color: #93c5fd !important;
+}
+
+:deep(.dark-theme) .text-danger {
+  color: #fca5a5 !important;
+}
 </style>

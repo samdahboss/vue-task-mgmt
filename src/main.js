@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Added Bootstrap JS
 import AOS from "aos";
 import "aos/dist/aos.css"; // Import AOS styles
 import "./style.css";
+import "./assets/dark-theme.css"; // Import custom dark theme styles
 
 // Initialize AOS
 AOS.init({

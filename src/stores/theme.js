@@ -28,12 +28,12 @@ export const useThemeStore = defineStore("theme", () => {
   }
   function applyDarkTheme() {
     document.body.classList.add("dark-theme", "bg-dark", "text-light");
-    document.documentElement.setAttribute('data-bs-theme', 'dark');
+    document.documentElement.setAttribute("data-bs-theme", "dark");
   }
 
   function applyLightTheme() {
     document.body.classList.remove("dark-theme", "bg-dark", "text-light");
-    document.documentElement.setAttribute('data-bs-theme', 'light');
+    document.documentElement.setAttribute("data-bs-theme", "light");
   }
 
   return {

@@ -1,0 +1,179 @@
+/* Dark theme enhanced styles */
+.dark-theme .btn-outline-primary {
+  color: #a5b4fc;
+  border-color: #a5b4fc;
+}
+
+.dark-theme .btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.dark-theme .btn-outline-success {
+  color: #86efac;
+  border-color: #86efac;
+}
+
+.dark-theme .btn-outline-success:hover {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.dark-theme .btn-outline-danger {
+  color: #fca5a5;
+  border-color: #fca5a5;
+}
+
+.dark-theme .btn-outline-danger:hover {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.dark-theme .badge.bg-primary {
+  background-color: #818cf8 !important;
+}
+
+.dark-theme .badge.bg-success {
+  background-color: #4ade80 !important;
+}
+
+.dark-theme .badge.bg-warning {
+  background-color: #fbbf24 !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-info {
+  background-color: #38bdf8 !important;
+}
+
+/* Sidebar improvements for dark mode */
+.dark-theme .sidebar {
+  background-color: var(--gray-900);
+  border-right: 1px solid var(--gray-800);
+}
+
+.dark-theme .sidebar-header {
+  border-bottom: 1px solid var(--gray-800);
+}
+
+.dark-theme .sidebar-nav .nav-link {
+  color: var(--gray-300);
+}
+
+.dark-theme .sidebar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.dark-theme .sidebar-nav .nav-link svg {
+  color: var(--gray-400);
+}
+
+.dark-theme .sidebar-nav .nav-link:hover svg {
+  color: white;
+}
+
+.dark-theme .sidebar-nav .nav-link.router-link-active {
+  background-color: var(--primary-color);
+}
+
+.dark-theme .sidebar-nav .nav-link.router-link-active svg {
+  color: white;
+}
+
+.dark-theme .sidebar.collapsed .nav-link::after {
+  background-color: var(--gray-800);
+  border: 1px solid var(--gray-700);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Progress circle improvements */
+.dark-theme .progress-circle-high {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+.dark-theme .progress-circle-medium {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #a5b4fc;
+}
+
+.dark-theme .progress-circle-low {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}
+
+/* Card hover improvements for dark mode */
+.dark-theme .card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Progress bar contrast in dark mode */
+.dark-theme .progress {
+  background-color: var(--gray-700);
+}
+
+/* Text contrast improvements */
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme h3,
+.dark-theme h4,
+.dark-theme h5,
+.dark-theme h6,
+.dark-theme .fw-bold {
+  color: white;
+}
+
+/* Table improvements for dark mode */
+.dark-theme .table {
+  color: var(--gray-300);
+}
+
+.dark-theme .table-light {
+  background-color: var(--gray-700);
+  color: white;
+}
+
+.dark-theme .table-bordered,
+.dark-theme .table td,
+.dark-theme .table th {
+  border-color: var(--gray-700);
+}
+
+/* Input fields in dark mode */
+.dark-theme .form-control,
+.dark-theme .form-select {
+  background-color: var(--gray-700);
+  border-color: var(--gray-600);
+  color: white;
+}
+
+.dark-theme .form-control:focus,
+.dark-theme .form-select:focus {
+  background-color: var(--gray-700);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.dark-theme .form-control::placeholder {
+  color: var(--gray-500);
+}
+
+/* Modal improvements for dark mode */
+.dark-theme .modal-content {
+  background-color: var(--gray-800);
+  color: var(--gray-200);
+}
+
+.dark-theme .modal-header,
+.dark-theme .modal-footer {
+  border-color: var(--gray-700);
+}
+
+/* Alert improvements for dark mode */
+.dark-theme .alert-info {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}

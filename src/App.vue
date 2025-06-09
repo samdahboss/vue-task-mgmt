@@ -56,7 +56,10 @@ onMounted(() => {
           <img src="/vite.svg" alt="TaskFlow Logo" width="30" height="30" class="me-2" />
           <span class="fw-bold" v-if="!isSidebarCollapsed">TaskFlow</span>
         </router-link>
-        <button class="btn btn-link p-0 d-none d-md-block" @click="toggleSidebar">
+        <button
+          class="btn btn-link p-0 d-none d-md-block sidebar-toggle"
+          @click="toggleSidebar"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -79,6 +82,7 @@ onMounted(() => {
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/dashboard"
+            data-title="Dashboard"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +108,7 @@ onMounted(() => {
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/tasks"
+            data-title="Tasks"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -133,6 +138,7 @@ onMounted(() => {
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/history"
+            data-title="History"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -158,6 +164,7 @@ onMounted(() => {
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/analytics"
+            data-title="Analytics"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -179,6 +186,7 @@ onMounted(() => {
           <router-link
             class="nav-link px-3 py-2 rounded d-flex align-items-center"
             to="/settings"
+            data-title="Settings"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -201,8 +209,9 @@ onMounted(() => {
 
         <div class="nav-item my-1 mt-4">
           <button
-            class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center"
+            class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center position-relative"
             @click="logout"
+            data-title="Logout"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -276,7 +285,13 @@ onMounted(() => {
       <nav class="navbar navbar-expand-lg" :class="navbarClass">
         <div class="container">
           <router-link class="navbar-brand fw-bold d-flex align-items-center" to="/">
-            <img src="/vite.svg" alt="TaskFlow Logo" width="30" height="30" class="me-2" />
+            <img
+              src="/vite.svg"
+              alt="TaskFlow Logo"
+              width="30"
+              height="30"
+              class="me-2"
+            />
             TaskFlow
           </router-link>
 
@@ -298,7 +313,9 @@ onMounted(() => {
                 <router-link class="nav-link px-3" to="/login">Log In</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="btn btn-primary ms-2" to="/signup">Sign Up</router-link>
+                <router-link class="btn btn-primary ms-2" to="/signup"
+                  >Sign Up</router-link
+                >
               </li>
             </ul>
           </div>
@@ -351,21 +368,79 @@ onMounted(() => {
   width: 70px;
 }
 
+.sidebar.collapsed .sidebar-nav .nav-link svg {
+  margin-right: 0 !important;
+}
+
+.sidebar.collapsed .sidebar-brand span,
+.sidebar.collapsed .nav-link span {
+  display: none;
+}
+
 .sidebar-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-nav .nav-link {
   transition: all 0.2s;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-nav .nav-link:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.dark-theme .sidebar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .sidebar-nav .nav-link.router-link-active {
   background-color: var(--primary-color);
+  color: white !important;
+}
+
+.sidebar-nav .nav-link.router-link-active svg {
+  color: white !important;
+}
+
+/* For collapsed sidebar - show icons in active state */
+.sidebar.collapsed .nav-link.router-link-active {
+  background-color: var(--primary-color);
+  color: white !important;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tooltip for collapsed sidebar */
+.sidebar.collapsed .nav-link {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar.collapsed .nav-link::after {
+  content: attr(data-title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--gray-800);
   color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 1000;
+  margin-left: 10px;
+}
+
+.sidebar.collapsed .nav-link:hover::after {
+  opacity: 1;
 }
 
 /* Content area */

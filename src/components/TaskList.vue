@@ -196,4 +196,40 @@ const confirmDeleteTask = async (task) => {
 .table th, .table td {
   vertical-align: middle;
 }
+
+/* Improve contrast for dark mode */
+:deep(.dark-theme) .text-primary {
+  color: #a5b4fc !important;
+}
+
+:deep(.dark-theme) .text-success {
+  color: #86efac !important;
+}
+
+:deep(.dark-theme) .text-warning {
+  color: #fcd34d !important;
+}
+
+:deep(.dark-theme) .text-info {
+  color: #93c5fd !important;
+}
+
+:deep(.dark-theme) .text-danger {
+  color: #fca5a5 !important;
+}
+
+:deep(.dark-theme) .table {
+  color: var(--gray-300);
+}
+
+:deep(.dark-theme) .table-light {
+  background-color: var(--gray-700);
+  color: white;
+}
+
+:deep(.dark-theme) .table-bordered,
+:deep(.dark-theme) .table td,
+:deep(.dark-theme) .table th {
+  border-color: var(--gray-700);
+}
 </style>

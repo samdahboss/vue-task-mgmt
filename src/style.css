@@ -61,7 +61,7 @@ body.dark-theme {
   border-color: var(--gray-700) !important;
 }
 
-.dark-theme .card-body, 
+.dark-theme .card-body,
 .dark-theme .card-header {
   border-color: var(--gray-700);
 }
