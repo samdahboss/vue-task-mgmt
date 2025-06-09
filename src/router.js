@@ -7,6 +7,7 @@ import AddTask from "./components/AddTask.vue";
 import TaskList from "./components/TaskList.vue";
 import TaskHistory from "./components/TaskHistory.vue";
 import Settings from "./components/Settings.vue";
+import Analytics from "./components/Analytics.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
@@ -17,6 +18,7 @@ const routes = [
   { path: "/add-task", component: AddTask, meta: { requiresAuth: true } },
   { path: "/tasks", component: TaskList, meta: { requiresAuth: true } },
   { path: "/history", component: TaskHistory, meta: { requiresAuth: true } },
+  { path: "/analytics", component: Analytics, meta: { requiresAuth: true } },
   { path: "/settings", component: Settings, meta: { requiresAuth: true } },
 ];
 

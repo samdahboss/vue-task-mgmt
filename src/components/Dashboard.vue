@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-5">
+  <div class="dashboard-container p-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0 fw-bold">Dashboard</h2>
       <router-link to="/add-task" class="btn btn-primary">
@@ -10,13 +10,14 @@
       </router-link>
     </div>
     
-    <div v-if="loading" class="text-center py-5">
+    <div v-if="loading || analytics.isLoading" class="text-center py-5">
       <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
     </div>
     <div v-else>
+      <!-- Task Statistics Cards -->
       <div class="row mb-4 g-4">
         <div class="col-md-4">
-          <div class="card h-100 border-0">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body p-4">
               <div class="d-flex align-items-center mb-3">
                 <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
@@ -35,7 +36,7 @@
         </div>
         
         <div class="col-md-4">
-          <div class="card h-100 border-0">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body p-4">
               <div class="d-flex align-items-center mb-3">
                 <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
@@ -53,7 +54,7 @@
         </div>
         
         <div class="col-md-4">
-          <div class="card h-100 border-0">
+          <div class="card h-100 border-0 shadow-sm">
             <div class="card-body p-4">
               <div class="d-flex align-items-center mb-3">
                 <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
@@ -70,42 +71,121 @@
         </div>
       </div>
       
-      <div class="mt-4">
-        <div class="d-flex align-items-center gap-2 mb-4">
-          <h4 class="mb-0 fw-bold">Recent Tasks</h4>
-          <span class="badge bg-primary ms-2">{{ Math.min(3, stats.total) }}</span>
-        </div>
-        
-        <div v-if="recentTasks.length === 0" class="text-center py-4">
-          <p class="text-muted">No tasks found. Start by adding a task!</p>
-          <router-link to="/add-task" class="btn btn-outline-primary mt-2">Add Your First Task</router-link>
-        </div>
-        
-        <div v-else class="row g-4">
-          <div v-for="task in recentTasks" :key="task.id" class="col-md-4">
-            <div class="card h-100 border-0">
-              <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span :class="'badge ' + getPriorityBadgeClass(task.priority)">{{ task.priority }}</span>
-                  <span class="badge" :class="task.completed ? 'bg-success' : 'bg-warning'">
-                    {{ task.completed ? 'Completed' : 'Pending' }}
-                  </span>
+      <!-- Analytics Overview -->
+      <div class="row mb-4 g-4">
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-4 px-4">
+              <h5 class="mb-0 fw-bold">Productivity Score</h5>
+              <p class="text-muted small mb-0">Based on completion rate and speed</p>
+            </div>
+            <div class="card-body p-4">
+              <div class="productivity-meter">
+                <div class="progress mb-3" style="height: 8px;">
+                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: `${analytics.productivityScore}%` }" 
+                    :aria-valuenow="analytics.productivityScore" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <h5 class="card-title mb-2 fw-bold">{{ task.title }}</h5>
-                <p class="card-text text-truncate mb-3">{{ task.description }}</p>
-                <div class="d-flex align-items-center text-muted small">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar me-1" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                  </svg>
-                  Due: {{ task.dueDate }}
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted small">Needs Improvement</span>
+                  <span class="fw-bold">{{ analytics.productivityScore }}/100</span>
+                  <span class="text-muted small">Excellent</span>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-6">
+                  <div class="text-center">
+                    <h6 class="fw-bold mb-1">{{ Math.round(analytics.taskMetrics.completionRate * 100) }}%</h6>
+                    <p class="text-muted small">Completion Rate</p>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center">
+                    <h6 class="fw-bold mb-1">{{ analytics.taskMetrics.avgCompletionTime.toFixed(1) }} days</h6>
+                    <p class="text-muted small">Avg Completion Time</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         
-        <div class="text-center mt-4">
-          <router-link to="/tasks" class="btn btn-outline-primary">View All Tasks</router-link>
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-4 px-4">
+              <h5 class="mb-0 fw-bold">Priority Distribution</h5>
+              <p class="text-muted small mb-0">Your task priorities</p>
+            </div>
+            <div class="card-body p-4">
+              <div class="row">
+                <div class="col-4 text-center">
+                  <div class="progress-circle progress-circle-high mb-3">
+                    <h4 class="fw-bold mb-0">{{ analytics.priorityDistribution.High }}%</h4>
+                  </div>
+                  <h6 class="mb-0 text-danger">High</h6>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="progress-circle progress-circle-medium mb-3">
+                    <h4 class="fw-bold mb-0">{{ analytics.priorityDistribution.Medium }}%</h4>
+                  </div>
+                  <h6 class="mb-0 text-primary">Medium</h6>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="progress-circle progress-circle-low mb-3">
+                    <h4 class="fw-bold mb-0">{{ analytics.priorityDistribution.Low }}%</h4>
+                  </div>
+                  <h6 class="mb-0 text-info">Low</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Recent Tasks -->
+      <div class="row">
+        <div class="col-12 mb-4">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="mb-0 fw-bold">Recent Tasks</h5>
+                <p class="text-muted small mb-0">Your latest tasks</p>
+              </div>
+              <span class="badge bg-primary">{{ Math.min(3, stats.total) }}</span>
+            </div>
+            <div class="card-body p-4">
+              <div v-if="recentTasks.length === 0" class="text-center py-4">
+                <p class="text-muted">No tasks found. Start by adding a task!</p>
+                <router-link to="/add-task" class="btn btn-outline-primary mt-2">Add Your First Task</router-link>
+              </div>
+              
+              <div v-else class="row g-4">
+                <div v-for="task in recentTasks" :key="task.id" class="col-md-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span :class="'badge ' + getPriorityBadgeClass(task.priority)">{{ task.priority }}</span>
+                        <span class="badge" :class="task.completed ? 'bg-success' : 'bg-warning'">
+                          {{ task.completed ? 'Completed' : 'Pending' }}
+                        </span>
+                      </div>
+                      <h5 class="card-title mb-2 fw-bold">{{ task.title }}</h5>
+                      <p class="card-text text-truncate mb-3">{{ task.description }}</p>
+                      <div class="d-flex align-items-center text-muted small">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar me-1" viewBox="0 0 16 16">
+                          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                        Due: {{ task.dueDate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="text-center mt-4">
+                <router-link to="/tasks" class="btn btn-outline-primary">View All Tasks</router-link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -113,12 +193,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watchEffect } from 'vue'
 import axios from 'axios'
 import { useAuthStore } from '../stores/auth'
+import { useAnalyticsStore } from '../stores/analytics'
 import { useRouter } from 'vue-router'
 
 const auth = useAuthStore()
+const analytics = useAnalyticsStore()
 const router = useRouter()
 const stats = ref({ total: 0, completed: 0, pending: 0 })
 const tasks = ref([])
@@ -139,6 +221,7 @@ onMounted(async () => {
     router.push('/login')
     return
   }
+  
   try {
     const { data } = await axios.get('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
       params: { userId: auth.user.id }
@@ -147,8 +230,43 @@ onMounted(async () => {
     stats.value.total = data.length
     stats.value.completed = data.filter(t => t.completed).length
     stats.value.pending = data.filter(t => !t.completed).length
+    
+    // Fetch analytics data
+    await analytics.fetchAnalytics(auth.user.id)
   } finally {
     loading.value = false
   }
 })
 </script>
+
+<style scoped>
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.progress-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.progress-circle-high {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+.progress-circle-medium {
+  background-color: rgba(13, 110, 253, 0.15);
+  color: #0d6efd;
+}
+
+.progress-circle-low {
+  background-color: rgba(13, 202, 240, 0.15);
+  color: #0dcaf0;
+}
+</style>
