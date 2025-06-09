@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import LandingPage from "./components/LandingPage.vue";
+import LandingView from "./views/LandingView.vue";
 import AuthView from "./views/AuthView.vue";
 import DashboardView from "./views/DashboardView.vue";
 import TaskListView from "./views/TaskListView.vue";
@@ -9,7 +9,7 @@ import AnalyticsView from "./views/AnalyticsView.vue";
 import { useAuthStore } from "./stores/auth";
 
 const routes = [
-  { path: "/", component: LandingPage },
+  { path: "/", component: LandingView },
   { path: "/signup", component: AuthView },
   { path: "/login", component: AuthView },
   {

@@ -2,14 +2,13 @@
   <div>
     <div class="mb-4">
       <label class="form-label d-block">Theme Mode</label>
-      <div class="btn-group" role="group">
-        <input 
+      <div class="btn-group" role="group">        <input 
           type="radio" 
           class="btn-check" 
           name="theme" 
           id="lightTheme" 
-          :checked="!themeStore.isDarkMode" 
-          @change="themeStore.setLightMode()"
+          :checked="!themeStore.isDarkTheme" 
+          @change="setLightTheme"
         >
         <label class="btn btn-outline-secondary" for="lightTheme">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sun me-2" viewBox="0 0 16 16">
@@ -17,14 +16,13 @@
           </svg>
           Light
         </label>
-        
-        <input 
+          <input 
           type="radio" 
           class="btn-check" 
           name="theme" 
           id="darkTheme" 
-          :checked="themeStore.isDarkMode" 
-          @change="themeStore.setDarkMode()"
+          :checked="themeStore.isDarkTheme" 
+          @change="setDarkTheme"
         >
         <label class="btn btn-outline-secondary" for="darkTheme">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars me-2" viewBox="0 0 16 16">
@@ -73,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useThemeStore } from '../../stores/theme';
 
 const themeStore = useThemeStore();
@@ -83,6 +81,19 @@ const textSize = ref(100);
 
 // Animations toggle
 const animationsEnabled = ref(true);
+
+// Theme toggle functions
+const setLightTheme = () => {
+  if (themeStore.isDarkTheme) {
+    themeStore.toggleTheme();
+  }
+};
+
+const setDarkTheme = () => {
+  if (!themeStore.isDarkTheme) {
+    themeStore.toggleTheme();
+  }
+};
 
 // Update text size
 const updateTextSize = () => {
@@ -99,6 +110,23 @@ const toggleAnimations = () => {
   }
   localStorage.setItem('app-animations', animationsEnabled.value ? 'enabled' : 'disabled');
 };
+
+// Initialize settings from localStorage on component mount
+onMounted(() => {
+  // Initialize text size
+  const savedTextSize = localStorage.getItem('app-text-size');
+  if (savedTextSize) {
+    textSize.value = parseInt(savedTextSize);
+    document.documentElement.style.fontSize = `${textSize.value}%`;
+  }
+  
+  // Initialize animations setting
+  const savedAnimations = localStorage.getItem('app-animations');
+  if (savedAnimations === 'disabled') {
+    animationsEnabled.value = false;
+    document.body.classList.add('no-animations');
+  }
+});
 </script>
 
 <style scoped>
