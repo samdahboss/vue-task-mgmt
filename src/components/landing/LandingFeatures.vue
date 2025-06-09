@@ -136,4 +136,26 @@
   background-color: rgba(79, 70, 229, 0.2);
   transform: scale(1.1);
 }
+
+/* Dark mode styles */
+:deep(.dark-theme) .feature-card {
+  background-color: var(--gray-800);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+:deep(.dark-theme) .feature-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+:deep(.dark-theme) .icon-bg {
+  background-color: rgba(79, 70, 229, 0.2);
+}
+
+:deep(.dark-theme) .feature-card:hover .icon-bg {
+  background-color: rgba(79, 70, 229, 0.3);
+}
+
+:deep(.dark-theme) h3 {
+  color: white;
+}
 </style>

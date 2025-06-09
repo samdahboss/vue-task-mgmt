@@ -82,9 +82,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="hero-wave">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    </div>    <div class="hero-wave">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="wave-svg">
         <path
           fill="#ffffff"
           fill-opacity="1"
@@ -255,8 +254,37 @@
   margin-bottom: 15px;
 }
 
-.task-progress {
-  margin-top: 15px;
+.task-progress {  margin-top: 15px;
+}
+
+/* Dark mode styles */
+:deep(.dark-theme) .hero-section {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.25) 0%,
+    rgba(139, 92, 246, 0.25) 100%
+  );
+}
+
+:deep(.dark-theme) .wave-svg path {
+  fill: var(--gray-900);
+}
+
+:deep(.dark-theme) .task-card {
+  background-color: var(--gray-800);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.dark-theme) .task-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+:deep(.dark-theme) .task-date {
+  color: var(--gray-400);
+}
+
+:deep(.dark-theme) .task-title {
+  color: var(--light-color);
 }
 
 /* Media Queries */

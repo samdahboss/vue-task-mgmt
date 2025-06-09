@@ -103,4 +103,26 @@
   font-size: 0.9rem;
   color: #6c757d;
 }
+
+/* Dark mode styles */
+:deep(.dark-theme) .testimonial-card {
+  background-color: var(--gray-800);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+:deep(.dark-theme) .testimonial-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+:deep(.dark-theme) .testimonial-content {
+  color: var(--gray-300);
+}
+
+:deep(.dark-theme) .author-name {
+  color: var(--light-color);
+}
+
+:deep(.dark-theme) .author-title {
+  color: var(--gray-400);
+}
 </style>
