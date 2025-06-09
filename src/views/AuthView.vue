@@ -1,56 +1,58 @@
 <template>
-  <div class="auth-container">
-    <div class="card-container" data-aos="fade-up" data-aos-duration="1000">
-      <div class="card">
-        <div class="text-center mb-4">
-          <router-link to="/"
-            ><img
-              src="/vite.svg"
-              alt="TaskFlow Logo"
-              width="70"
-              class="logo-animation mb-3"
+  <div class="auth-container d-flex align-items-center justify-content-center py-5 px-3">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 col-xl-4">
+          <div class="card shadow-lg border-0 p-4 p-md-5" data-aos="fade-up" data-aos-duration="1000">
+            <div class="text-center mb-4">
+              <router-link to="/">
+                <img
+                  src="/vite.svg"
+                  alt="TaskFlow Logo"
+                  width="70"
+                  class="logo-animation mb-3"
+                />
+              </router-link>
+              <h2 class="fw-bold text-gradient">{{ isLogin ? "Log In" : "Sign Up" }}</h2>
+              <p class="text-muted">
+                {{ isLogin ? "Access your account" : "Create your free account" }}
+              </p>
+            </div>
+
+            <LoginForm 
+              v-if="isLogin" 
+              @login-success="onLoginSuccess" 
+              @error="error = $event"
             />
-          </router-link>
-          <h2 class="fw-bold text-gradient">{{ isLogin ? "Log In" : "Sign Up" }}</h2>
-          <p class="text-muted">
-            {{ isLogin ? "Access your account" : "Create your free account" }}
-          </p>
-        </div>
 
-        <LoginForm 
-          v-if="isLogin" 
-          @login-success="onLoginSuccess" 
-          @error="error = $event"
-        />
+            <SignupForm 
+              v-else 
+              @signup-success="onSignupSuccess" 
+              @error="error = $event"
+            />
 
-        <SignupForm 
-          v-else 
-          @signup-success="onSignupSuccess" 
-          @error="error = $event"
-        />
+            <!-- Error Display -->
+            <div v-if="error" class="alert alert-danger mt-3" data-aos="fade">
+              {{ error }}
+            </div>
 
-        <!-- Error Display -->
-        <div v-if="error" class="alert alert-danger mt-3" data-aos="fade">
-          {{ error }}
-        </div>
+            <!-- Toggle Switch between Login and Signup -->
+            <div class="mt-4 text-center" data-aos="fade-up" data-aos-delay="400">
+              <p class="mb-2">
+                {{ isLogin ? "Don't have an account?" : "Already have an account?" }}
+              </p>
+              <button @click="toggleAuthMode" class="btn btn-link text-primary fw-medium p-0">
+                <span class="fw-bold">{{ isLogin ? "Sign Up" : "Log In" }}</span>
+              </button>
+            </div>
 
-        <!-- Toggle Switch between Login and Signup -->
-        <div class="toggle-container mt-4" data-aos="fade-up" data-aos-delay="400">
-          <div class="text-center">
-            <p class="mb-2">
-              {{ isLogin ? "Don't have an account?" : "Already have an account?" }}
-            </p>
-            <button @click="toggleAuthMode" class="btn btn-link toggle-auth-btn p-0">
-              <span class="fw-bold">{{ isLogin ? "Sign Up" : "Log In" }}</span>
-            </button>
+            <!-- Decorative Elements -->
+            <div class="decorative-shapes">
+              <div class="shape shape-1"></div>
+              <div class="shape shape-2"></div>
+              <div class="shape shape-3"></div>
+            </div>
           </div>
-        </div>
-
-        <!-- Decorative Elements -->
-        <div class="decorative-shapes">
-          <div class="shape shape-1"></div>
-          <div class="shape shape-2"></div>
-          <div class="shape shape-3"></div>
         </div>
       </div>
     </div>
@@ -116,23 +118,11 @@ const onSignupSuccess = (userData) => {
 <style scoped>
 .auth-container {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
 }
 
-.card-container {
-  width: 100%;
-  max-width: 450px;
-}
-
 .card {
-  border: none;
   border-radius: 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 2.5rem;
   position: relative;
   overflow: hidden;
 }
@@ -140,6 +130,7 @@ const onSignupSuccess = (userData) => {
 .text-gradient {
   background: linear-gradient(90deg, #4f46e5, #2563eb);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -157,37 +148,6 @@ const onSignupSuccess = (userData) => {
   100% {
     transform: scale(1);
   }
-}
-
-.custom-input {
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s;
-}
-
-.custom-input:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-  border-color: #3b82f6;
-}
-
-.auth-btn {
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.toggle-auth-btn {
-  color: #3b82f6;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-.toggle-auth-btn:hover {
-  color: #1e3a8a;
-  text-decoration: underline;
 }
 
 /* Decorative elements */
@@ -231,21 +191,15 @@ const onSignupSuccess = (userData) => {
 
 :deep(.dark-theme) .card {
   background-color: #1e293b;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 :deep(.dark-theme) .text-muted {
   color: #94a3b8 !important;
 }
 
-:deep(.dark-theme) .custom-input {
+:deep(.dark-theme) .form-control {
   background-color: #334155;
   border-color: #475569;
   color: #f1f5f9;
-}
-
-:deep(.dark-theme) .custom-input:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
-  border-color: #3b82f6;
 }
 </style>

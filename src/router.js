@@ -3,7 +3,7 @@ import LandingPage from "./components/LandingPage.vue";
 import AuthView from "./views/AuthView.vue";
 import DashboardView from "./views/DashboardView.vue";
 import TaskListView from "./views/TaskListView.vue";
-import TaskHistory from "./components/TaskHistory.vue";
+import TaskHistoryView from "./views/TaskHistoryView.vue";
 import SettingsView from "./views/SettingsView.vue";
 import AnalyticsView from "./views/AnalyticsView.vue";
 import { useAuthStore } from "./stores/auth";
@@ -18,7 +18,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { path: "/tasks", component: TaskListView, meta: { requiresAuth: true } },
-  { path: "/history", component: TaskHistory, meta: { requiresAuth: true } },
+  {
+    path: "/history",
+    component: TaskHistoryView,
+    meta: { requiresAuth: true },
+  },
   {
     path: "/analytics",
     component: AnalyticsView,

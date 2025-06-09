@@ -63,13 +63,13 @@
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import { useAuthStore } from "@/stores/auth";
-import { useAnalyticsStore } from "@/stores/analytics";
-import TaskFormModal from "@/components/modals/TaskFormModal.vue";
-import DeleteConfirmationModal from "@/components/modals/DeleteConfirmationModal.vue";
-import StatisticsCards from "@/components/dashboard/StatisticsCards.vue";
-import AnalyticsOverview from "@/components/dashboard/AnalyticsOverview.vue";
-import RecentTasks from "@/components/dashboard/RecentTasks.vue";
+import { useAuthStore } from "../stores/auth";
+import { useAnalyticsStore } from "../stores/analytics";
+import TaskFormModal from "../components/modals/TaskFormModal.vue";
+import DeleteConfirmationModal from "../components/modals/DeleteConfirmationModal.vue";
+import StatisticsCards from "../components/dashboard/StatisticsCards.vue";
+import AnalyticsOverview from "../components/dashboard/AnalyticsOverview.vue";
+import RecentTasks from "../components/dashboard/RecentTasks.vue";
 
 const auth = useAuthStore();
 const analytics = useAnalyticsStore();

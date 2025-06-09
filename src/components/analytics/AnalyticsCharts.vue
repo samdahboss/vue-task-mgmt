@@ -7,12 +7,18 @@
           <p class="text-muted small mb-0">Number of tasks created per month</p>
         </div>
         <div class="card-body p-4">
-          <div class="chart-container" style="position: relative; height:300px;">
-            <div class="monthly-chart">
+          <div class="position-relative" style="height:300px;">
+            <div class="d-flex justify-content-around align-items-end h-100">
               <div v-for="(count, index) in analytics.monthlyTrend.counts" :key="index" 
-                   class="chart-bar" :style="{height: `${(count/Math.max(...analytics.monthlyTrend.counts || [1]))*240}px`}">
-                <div class="chart-bar-value">{{ count }}</div>
-                <div class="chart-bar-label">{{ analytics.monthlyTrend.months[index] }}</div>
+                   class="bg-primary rounded-top position-relative" 
+                   style="width: 40px; min-height: 30px;"
+                   :style="{height: `${(count/Math.max(...analytics.monthlyTrend.counts || [1]))*240}px`}">
+                <div class="position-absolute top-0 start-50 translate-middle-x" style="margin-top: -25px;">
+                  <span class="fw-bold">{{ count }}</span>
+                </div>
+                <div class="position-absolute bottom-0 start-50 translate-middle-x" style="margin-bottom: -25px;">
+                  <span class="small text-nowrap">{{ analytics.monthlyTrend.months[index] }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -27,7 +33,7 @@
           <p class="text-muted small mb-0">Breakdown by priority</p>
         </div>
         <div class="card-body p-4">
-          <div class="priority-stats">
+          <div>
             <div class="mb-4">
               <div class="d-flex justify-content-between mb-1">
                 <span>High Priority</span>
@@ -84,37 +90,3 @@ defineProps({
   }
 });
 </script>
-
-<style scoped>
-.monthly-chart {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  height: 100%;
-}
-
-.chart-bar {
-  width: 40px;
-  background-color: #3b82f6;
-  border-radius: 6px 6px 0 0;
-  position: relative;
-  min-height: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.chart-bar-value {
-  position: absolute;
-  top: -25px;
-  font-weight: bold;
-}
-
-.chart-bar-label {
-  position: absolute;
-  bottom: -25px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-</style>

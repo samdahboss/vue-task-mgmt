@@ -4,32 +4,32 @@
     
     <div class="row">
       <div class="col-lg-8">
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm border-0 mb-4 rounded-4">
           <div class="card-body p-4">
-            <h4 class="mb-4">Account Settings</h4>
+            <h4 class="mb-4 fw-semibold text-secondary">Account Settings</h4>
             <ProfileSettings :user="auth.user" @update="handleProfileUpdate" />
           </div>
         </div>
         
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm border-0 mb-4 rounded-4">
           <div class="card-body p-4">
-            <h4 class="mb-4">Appearance</h4>
+            <h4 class="mb-4 fw-semibold text-secondary">Appearance</h4>
             <AppearanceSettings />
           </div>
         </div>
         
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-0 rounded-4">
           <div class="card-body p-4">
-            <h4 class="mb-4">Notifications</h4>
+            <h4 class="mb-4 fw-semibold text-secondary">Notifications</h4>
             <NotificationSettings />
           </div>
         </div>
       </div>
       
       <div class="col-lg-4">
-        <div class="card shadow-sm border-0 mb-4">
+        <div class="card shadow-sm border-0 mb-4 rounded-4">
           <div class="card-body p-4">
-            <h4 class="mb-4">Account Actions</h4>
+            <h4 class="mb-4 fw-semibold text-secondary">Account Actions</h4>
             <AccountActions @logout="handleLogout" />
           </div>
         </div>
@@ -75,7 +75,6 @@ const handleLogout = () => {
 
 <style scoped>
 .card {
-  border-radius: 0.75rem;
   transition: all 0.3s;
 }
 
@@ -84,13 +83,8 @@ const handleLogout = () => {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
 }
 
-h4 {
-  font-weight: 600;
-  color: #4b5563;
-}
-
 /* Dark mode adjustments */
-:deep(.dark-theme) h4 {
-  color: #e5e7eb;
+:deep(.dark-theme) .text-secondary {
+  color: #e5e7eb !important;
 }
 </style>

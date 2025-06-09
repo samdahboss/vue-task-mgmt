@@ -1,14 +1,10 @@
 <template>
-  <form
-    @submit.prevent="handleSignUp"
-    novalidate
-    :class="{ 'was-validated': validated }"
-  >
+  <form @submit.prevent="handleSignUp" novalidate :class="{ 'was-validated': validated }">
     <div class="form-floating mb-3" data-aos="fade-up" data-aos-delay="100">
       <input
         v-model="name"
         type="text"
-        class="form-control custom-input"
+        class="form-control rounded-3"
         id="name"
         required
         autocomplete="name"
@@ -21,7 +17,7 @@
       <input
         v-model="email"
         type="email"
-        class="form-control custom-input"
+        class="form-control rounded-3"
         id="email"
         required
         autocomplete="email"
@@ -34,7 +30,7 @@
       <input
         v-model="password"
         type="password"
-        class="form-control custom-input"
+        class="form-control rounded-3"
         id="password"
         required
         minlength="6"
@@ -46,12 +42,17 @@
     </div>
     <button
       type="submit"
-      class="btn btn-primary w-100 py-3 auth-btn"
+      class="btn btn-primary w-100 py-3 rounded-3 fw-semibold"
       data-aos="fade-up"
       data-aos-delay="400"
       :disabled="isLoading"
     >
-      <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      <span
+        v-if="isLoading"
+        class="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
       Sign Up
     </button>
   </form>
@@ -71,19 +72,19 @@ const isLoading = ref(false);
 const auth = useAuthStore();
 
 // Define emits
-const emit = defineEmits(['signup-success', 'error']);
+const emit = defineEmits(["signup-success", "error"]);
 
 // Handle signup submission
 const handleSignUp = async () => {
   validated.value = true;
-  
+
   // Form validation
   if (!name.value || !email.value || password.value.length < 6) {
     return;
   }
 
   isLoading.value = true;
-  
+
   try {
     // Check if email already exists
     const { data: existingUsers } = await axios.get(
@@ -94,7 +95,7 @@ const handleSignUp = async () => {
     );
 
     if (existingUsers.length) {
-      emit('error', 'Email already exists. Please log in instead.');
+      emit("error", "Email already exists. Please log in instead.");
       isLoading.value = false;
       return;
     }
@@ -111,9 +112,9 @@ const handleSignUp = async () => {
 
     // Login the new user
     auth.login(newUser);
-    emit('signup-success', newUser);
+    emit("signup-success", newUser);
   } catch (e) {
-    emit('error', 'Registration failed. Please try again.');
+    emit("error", "Registration failed. Please try again.");
   } finally {
     isLoading.value = false;
   }

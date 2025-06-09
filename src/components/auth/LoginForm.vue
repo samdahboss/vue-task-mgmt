@@ -8,7 +8,7 @@
       <input
         v-model="email"
         type="email"
-        class="form-control custom-input"
+        class="form-control rounded-3"
         id="email"
         required
         autocomplete="email"
@@ -21,7 +21,7 @@
       <input
         v-model="password"
         type="password"
-        class="form-control custom-input"
+        class="form-control rounded-3"
         id="password"
         required
         minlength="6"
@@ -33,7 +33,7 @@
     </div>
     <button
       type="submit"
-      class="btn btn-primary w-100 py-3 auth-btn"
+      class="btn btn-primary w-100 py-3 rounded-3 fw-semibold"
       data-aos="fade-up"
       data-aos-delay="300"
       :disabled="isLoading"
