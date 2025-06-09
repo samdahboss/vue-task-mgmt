@@ -139,23 +139,44 @@
 
 /* Dark mode styles */
 :deep(.dark-theme) .feature-card {
-  background-color: var(--gray-800);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-feature-bg-dark);
+  border-color: var(--card-feature-border-dark);
+  box-shadow: var(--card-shadow-dark);
 }
 
 :deep(.dark-theme) .feature-card:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow-hover-dark);
+  border-color: var(--primary-light);
 }
 
 :deep(.dark-theme) .icon-bg {
-  background-color: rgba(79, 70, 229, 0.2);
+  background-color: var(--icon-bg-dark);
 }
 
 :deep(.dark-theme) .feature-card:hover .icon-bg {
-  background-color: rgba(79, 70, 229, 0.3);
+  background-color: rgba(79, 70, 229, 0.4);
 }
 
 :deep(.dark-theme) h3 {
-  color: white;
+  color: var(--text-primary-dark);
+}
+
+:deep(.dark-theme) .text-muted {
+  color: var(--text-secondary-dark) !important;
+}
+
+:deep(.dark-theme) .text-gradient {
+  background: linear-gradient(
+    to right,
+    var(--primary-lightest) 0%,
+    var(--secondary-light) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:deep(.dark-theme) .text-primary {
+  color: var(--primary-lightest) !important;
 }
 </style>

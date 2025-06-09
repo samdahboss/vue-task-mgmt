@@ -119,8 +119,8 @@ onMounted(() => {
 }
 
 :deep(.dark-theme) .btn-outline-primary {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+  color: var(--primary-lightest);
+  border-color: var(--primary-lightest);
 }
 
 :deep(.dark-theme) .btn-outline-primary:hover {

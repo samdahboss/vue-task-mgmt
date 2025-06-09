@@ -96,6 +96,22 @@ onMounted(() => {
   margin-top: 5px;
 }
 
+/* Dark mode styles */
+:deep(.dark-theme) .stats-section {
+  background-color: var(--stats-bg-dark);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+:deep(.dark-theme) .stat-value,
+:deep(.dark-theme) .stat-unit {
+  color: var(--stats-value-color-dark);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.dark-theme) .stat-label {
+  color: var(--stats-label-color-dark);
+}
+
 @media (max-width: 992px) {
   .stat-value {
     font-size: 2.5rem;

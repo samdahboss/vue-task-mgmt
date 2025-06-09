@@ -32,6 +32,32 @@
   color: white;
 }
 
+/* Dark mode styles */
+:deep(.dark-theme) .cta-section {
+  background: var(--cta-bg-dark);
+  color: var(--cta-text-color-dark);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.dark-theme) .cta-section h2,
+:deep(.dark-theme) .cta-section p {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+:deep(.dark-theme) .btn-primary {
+  background-color: white;
+  color: var(--primary-color);
+  border-color: white;
+  box-shadow: var(--btn-primary-shadow-dark);
+}
+
+:deep(.dark-theme) .btn-primary:hover {
+  background-color: var(--gray-100);
+  color: var(--primary-dark);
+  border-color: var(--gray-100);
+  transform: translateY(-2px);
+}
+
 .pulse-animation {
   animation: pulse 2s infinite;
 }

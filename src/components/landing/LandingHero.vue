@@ -252,6 +252,7 @@
   font-weight: 600;
   font-size: 16px;
   margin-bottom: 15px;
+  color: #212529;
 }
 
 .task-progress {  margin-top: 15px;
@@ -259,11 +260,8 @@
 
 /* Dark mode styles */
 :deep(.dark-theme) .hero-section {
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.25) 0%,
-    rgba(139, 92, 246, 0.25) 100%
-  );
+  background: var(--gradient-bg-dark);
+  color: var(--text-primary-dark);
 }
 
 :deep(.dark-theme) .wave-svg path {
@@ -271,20 +269,36 @@
 }
 
 :deep(.dark-theme) .task-card {
-  background-color: var(--gray-800);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+  box-shadow: var(--card-shadow-dark);
 }
 
 :deep(.dark-theme) .task-card:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow-hover-dark);
 }
 
 :deep(.dark-theme) .task-date {
-  color: var(--gray-400);
+  color: var(--task-date-color-dark);
 }
 
 :deep(.dark-theme) .task-title {
-  color: var(--light-color);
+  color: var(--task-title-color-dark);
+}
+
+:deep(.dark-theme) .progress {
+  background-color: var(--task-progress-bg-dark);
+}
+
+:deep(.dark-theme) .text-gradient {
+  background: linear-gradient(
+    to right,
+    var(--primary-lightest) 0%,
+    var(--secondary-light) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Media Queries */

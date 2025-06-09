@@ -106,23 +106,31 @@
 
 /* Dark mode styles */
 :deep(.dark-theme) .testimonial-card {
-  background-color: var(--gray-800);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: var(--card-testimonial-bg-dark);
+  border-color: var(--card-testimonial-border-dark);
+  box-shadow: var(--card-shadow-dark);
 }
 
 :deep(.dark-theme) .testimonial-card:hover {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--card-shadow-hover-dark);
+  border-color: var(--primary-light);
 }
 
 :deep(.dark-theme) .testimonial-content {
-  color: var(--gray-300);
+  color: var(--card-testimonial-content-dark);
 }
 
 :deep(.dark-theme) .author-name {
-  color: var(--light-color);
+  color: var(--text-primary-dark);
 }
 
 :deep(.dark-theme) .author-title {
-  color: var(--gray-400);
+  color: var(--text-muted-dark);
+}
+
+:deep(.dark-theme) .avatar-placeholder {
+  background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 </style>

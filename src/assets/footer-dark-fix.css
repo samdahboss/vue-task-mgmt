@@ -1,0 +1,19 @@
+/* Footer dark mode override */
+body.dark-theme .landing-footer {
+  background-color: #111827 !important;
+}
+
+.dark-theme .landing-footer::before,
+.dark-theme .landing-footer::after {
+  background-color: #111827 !important;
+}
+
+.dark-theme .dark-footer-overlay {
+  background-color: #111827 !important;
+  z-index: 0 !important;
+}
+
+.dark-theme .landing-footer .container {
+  position: relative;
+  z-index: 1;
+}

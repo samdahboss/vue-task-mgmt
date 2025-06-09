@@ -1,0 +1,146 @@
+/* Dark theme color scheme for landing page */
+:root {
+  /* Primary colors */
+  --primary-color: #4f46e5;
+  --primary-dark: #4338ca;
+  --primary-light: #6366f1;
+  --primary-lighter: #818cf8;
+  --primary-lightest: #a5b4fc;
+
+  /* Secondary colors */
+  --secondary-color: #8b5cf6;
+  --secondary-dark: #7c3aed;
+  --secondary-light: #a78bfa;
+
+  /* Success colors */
+  --success-color: #10b981;
+  --success-dark: #059669;
+  --success-light: #34d399;
+  --success-lightest: #86efac;
+
+  /* Danger colors */
+  --danger-color: #ef4444;
+  --danger-dark: #dc2626;
+  --danger-light: #f87171;
+  --danger-lightest: #fca5a5;
+
+  /* Info colors */
+  --info-color: #0ea5e9;
+  --info-dark: #0284c7;
+  --info-light: #38bdf8;
+
+  /* Warning colors */
+  --warning-color: #f59e0b;
+  --warning-dark: #d97706;
+  --warning-light: #fbbf24;
+
+  /* Neutrals */
+  --light-color: #f9fafb;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --dark-color: #111827;
+}
+
+/* Dark theme specific variables */
+.dark-theme {
+  /* Override light background with dark ones */
+  --bs-body-bg: var(--gray-900);
+  --bs-body-color: var(--gray-300);
+
+  /* Enhanced gradient colors for dark mode */
+  --gradient-bg-dark: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.2) 0%,
+    rgba(139, 92, 246, 0.2) 100%
+  );
+  --card-bg-dark: var(--gray-800);
+  --card-border-dark: var(--gray-700);
+  --card-shadow-dark: 0 5px 15px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover-dark: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+  /* Text colors for dark mode */
+  --text-primary-dark: white;
+  --text-muted-dark: var(--gray-400);
+  --text-secondary-dark: var(--gray-300);
+
+  /* Button colors */
+  --btn-primary-bg-dark: var(--primary-color);
+  --btn-primary-border-dark: var(--primary-dark);
+  --btn-primary-hover-dark: var(--primary-dark);
+  --btn-primary-shadow-dark: 0 4px 12px rgba(79, 70, 229, 0.4);
+
+  /* Input fields */
+  --input-bg-dark: var(--gray-800);
+  --input-border-dark: var(--gray-700);
+  --input-focus-border-dark: var(--primary-lightest);
+
+  /* Testimonial and feature cards */
+  --card-testimonial-bg-dark: var(--gray-800);
+  --card-testimonial-border-dark: var(--gray-700);
+  --card-testimonial-content-dark: var(--gray-300);
+  --card-feature-bg-dark: var(--gray-800);
+  --card-feature-border-dark: var(--gray-700);
+  --icon-bg-dark: rgba(79, 70, 229, 0.3);
+
+  /* Stats section */
+  --stats-bg-dark: rgba(31, 41, 55, 0.7);
+  --stats-value-color-dark: var(--primary-lightest);
+  --stats-label-color-dark: var(--gray-300);
+
+  /* Task cards in hero section */
+  --task-card-bg-dark: var(--gray-800);
+  --task-card-border-dark: var(--gray-700);
+  --task-title-color-dark: white;
+  --task-date-color-dark: var(--gray-400);
+  --task-progress-bg-dark: var(--gray-700);
+  /* Footer */
+  --footer-bg-dark: var(--gray-900);
+  --footer-border-dark: var(--gray-800);
+  --footer-link-color-dark: var(--gray-400);
+  --footer-link-hover-color-dark: var(--primary-lightest);
+  --footer-force-bg: #111827; /* Explicit color to ensure it overrides any other styles */
+
+  /* CTA section */
+  --cta-bg-dark: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.9) 0%,
+    rgba(139, 92, 246, 0.9) 100%
+  );
+  --cta-text-color-dark: white;
+
+  /* Override bootstrap text-muted in dark mode */
+  --bs-text-muted: var(--gray-400) !important;
+}
+
+/* Additional dark mode enhancements */
+.dark-theme .text-muted {
+  color: var(--text-muted-dark) !important;
+}
+
+.dark-theme .text-dark {
+  color: var(--text-primary-dark) !important;
+}
+
+.dark-theme .text-secondary {
+  color: var(--text-secondary-dark) !important;
+}
+
+.dark-theme .lead {
+  color: var(--text-secondary-dark);
+}
+
+.dark-theme a:not(.btn):not(.footer-link):not(.social-link) {
+  color: var(--primary-lightest);
+}
+
+.dark-theme a:not(.btn):not(.footer-link):not(.social-link):hover {
+  color: var(--secondary-light);
+}

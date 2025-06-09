@@ -1,0 +1,113 @@
+/* Additional dark mode overrides for Bootstrap components */
+.dark-theme .progress {
+  background-color: var(--gray-700);
+}
+
+.dark-theme .progress-bar {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Improved contrast for badges in dark mode */
+.dark-theme .badge.bg-primary {
+  background-color: var(--primary-lightest) !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-secondary {
+  background-color: var(--secondary-light) !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-success {
+  background-color: var(--success-light) !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-danger {
+  background-color: var(--danger-light) !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-warning {
+  background-color: var(--warning-light) !important;
+  color: var(--gray-900) !important;
+}
+
+.dark-theme .badge.bg-info {
+  background-color: var(--info-light) !important;
+  color: var(--gray-900) !important;
+}
+
+/* Improved dark mode for dropdown menus */
+.dark-theme .dropdown-menu {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+.dark-theme .dropdown-item {
+  color: var(--gray-300);
+}
+
+.dark-theme .dropdown-item:hover,
+.dark-theme .dropdown-item:focus {
+  background-color: var(--gray-700);
+  color: white;
+}
+
+.dark-theme .dropdown-divider {
+  border-color: var(--gray-700);
+}
+
+/* Footer dark mode fix */
+.dark-theme .landing-footer {
+  background-color: #111827 !important;
+  color: var(--gray-300) !important;
+}
+
+/* Dark mode for toasts and alerts */
+.dark-theme .toast {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+.dark-theme .toast-header {
+  background-color: var(--gray-700);
+  color: var(--gray-300);
+  border-color: var(--gray-600);
+}
+
+.dark-theme .alert-primary {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: var(--primary-lightest);
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+.dark-theme .alert-secondary {
+  background-color: rgba(139, 92, 246, 0.2);
+  color: var(--secondary-light);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.dark-theme .alert-success {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: var(--success-lightest);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.dark-theme .alert-danger {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: var(--danger-lightest);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.dark-theme .alert-warning {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: var(--warning-light);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.dark-theme .alert-info {
+  background-color: rgba(14, 165, 233, 0.2);
+  color: var(--info-light);
+  border-color: rgba(14, 165, 233, 0.3);
+}
