@@ -13,6 +13,11 @@ export const useAnalyticsStore = defineStore("analytics", () => {
       Medium: 0,
       Low: 0,
     },
+    completionByPriority: {
+      High: { completed: 0, pending: 0 },
+      Medium: { completed: 0, pending: 0 },
+      Low: { completed: 0, pending: 0 },
+    },
     tasksByMonth: {},
     recentActivity: [],
   });
@@ -37,9 +42,7 @@ export const useAnalyticsStore = defineStore("analytics", () => {
       ) || 1;
     return {
       High: Math.round((taskMetrics.value.tasksByPriority.High / total) * 100),
-      Medium: Math.round(
-        (taskMetrics.value.tasksByPriority.Medium / total) * 100
-      ),
+      Medium: Math.round((taskMetrics.value.tasksByPriority.Medium / total) * 100),
       Low: Math.round((taskMetrics.value.tasksByPriority.Low / total) * 100),
     };
   });
@@ -51,9 +54,7 @@ export const useAnalyticsStore = defineStore("analytics", () => {
     Object.entries(taskMetrics.value.tasksByMonth || {})
       .sort(([monthA], [monthB]) => new Date(monthA) - new Date(monthB))
       .forEach(([month, count]) => {
-        months.push(
-          new Date(month).toLocaleString("default", { month: "short" })
-        );
+        months.push(new Date(month).toLocaleString("default", { month: "short" }));
         counts.push(count);
       });
 
@@ -87,6 +88,32 @@ export const useAnalyticsStore = defineStore("analytics", () => {
   function calculateMetrics(tasks) {
     if (!tasks.length) return;
 
+    // Reset metrics
+    taskMetrics.value.tasksByPriority = {
+      High: 0,
+      Medium: 0,
+      Low: 0,
+    };
+
+    taskMetrics.value.completionByPriority = {
+      High: { completed: 0, pending: 0 },
+      Medium: { completed: 0, pending: 0 },
+      Low: { completed: 0, pending: 0 },
+    };
+
+    // Calculate task metrics
+    tasks.forEach((task) => {
+      // Update task count by priority
+      taskMetrics.value.tasksByPriority[task.priority]++;
+
+      // Update completion status by priority
+      if (task.completed) {
+        taskMetrics.value.completionByPriority[task.priority].completed++;
+      } else {
+        taskMetrics.value.completionByPriority[task.priority].pending++;
+      }
+    });
+
     // Basic metrics
     taskMetrics.value.totalCreated = tasks.length;
 
@@ -103,16 +130,8 @@ export const useAnalyticsStore = defineStore("analytics", () => {
       });
 
     taskMetrics.value.avgCompletionTime = completionTimes.length
-      ? completionTimes.reduce((sum, time) => sum + time, 0) /
-        completionTimes.length
+      ? completionTimes.reduce((sum, time) => sum + time, 0) / completionTimes.length
       : 0;
-
-    // Tasks by priority
-    taskMetrics.value.tasksByPriority = {
-      High: tasks.filter((t) => t.priority === "High").length,
-      Medium: tasks.filter((t) => t.priority === "Medium").length,
-      Low: tasks.filter((t) => t.priority === "Low").length,
-    };
 
     // Tasks by month
     const byMonth = {};
