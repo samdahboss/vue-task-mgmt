@@ -104,7 +104,7 @@ const updateProfile = async () => {
     profileData.value.currentPassword = '';
     profileData.value.newPassword = '';
   } catch (error) {
-    console.error('Error in profile update:', error);
+    // console.error('Error in profile update:', error);
   } finally {
     isSubmitting.value = false;
   }

@@ -102,7 +102,7 @@ const markComplete = async (task) => {
     });
     fetchTasks();
   } catch (error) {
-    console.error('Error completing task:', error);
+    // console.error('Error completing task:', error);
   }
 };
 
@@ -140,7 +140,7 @@ const saveTask = async (taskData) => {
     }
     fetchTasks();
   } catch (error) {
-    console.error('Error saving task:', error);
+    // console.error('Error saving task:', error);
   }
 };
 
@@ -162,7 +162,7 @@ const confirmDeleteTask = async (task) => {
     await axios.delete(`${API_URL}/tasks/${task.id}`);
     fetchTasks();
   } catch (error) {
-    console.error('Error deleting task:', error);
+    // console.error('Error deleting task:', error);
   }
 };
 </script>

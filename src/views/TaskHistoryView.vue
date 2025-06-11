@@ -122,7 +122,7 @@ const fetchCompletedTasks = async () => {
     });
     tasks.value = data;
   } catch (error) {
-    console.error('Error fetching completed tasks:', error);
+    // console.error('Error fetching completed tasks:', error);
   } finally {
     loading.value = false;
   }

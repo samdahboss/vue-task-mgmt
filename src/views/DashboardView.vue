@@ -130,7 +130,7 @@ const saveTask = async (taskData) => {
     // Refresh tasks
     await fetchTasks();
   } catch (error) {
-    console.error("Error saving task:", error);
+    // console.error("Error saving task:", error);
   }
 };
 
@@ -151,7 +151,7 @@ const markTaskComplete = async (task) => {
     // Refresh tasks
     await fetchTasks();
   } catch (error) {
-    console.error("Error completing task:", error);
+    // console.error("Error completing task:", error);
   }
 };
 
@@ -175,7 +175,7 @@ const confirmDeleteTask = async (task) => {
     // Refresh tasks
     await fetchTasks();
   } catch (error) {
-    console.error("Error deleting task:", error);
+    // console.error("Error deleting task:", error);
   }
 };
 
@@ -195,7 +195,7 @@ const fetchTasks = async () => {
     stats.value.completed = data.filter((t) => t.completed).length;
     stats.value.pending = data.filter((t) => !t.completed).length;
   } catch (error) {
-    console.error("Error fetching tasks:", error);
+    // console.error("Error fetching tasks:", error);
   }
 };
 

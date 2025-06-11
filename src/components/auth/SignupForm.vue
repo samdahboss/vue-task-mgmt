@@ -113,7 +113,7 @@ const handleSignUp = async () => {
     auth.login(newUser);
     emit("signup-success", newUser);
   } catch (e) {
-    console.error("API Error:", e);
+    // console.error("API Error:", e);
     emit(
       "error",
       e.response?.data?.message ||

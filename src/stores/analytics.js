@@ -81,7 +81,7 @@ export const useAnalyticsStore = defineStore("analytics", () => {
 
       calculateMetrics(data);
     } catch (err) {
-      console.error("Error fetching analytics data:", err);
+      // console.error("Error fetching analytics data:", err);
       error.value = "Failed to load analytics data";
     } finally {
       isLoading.value = false;

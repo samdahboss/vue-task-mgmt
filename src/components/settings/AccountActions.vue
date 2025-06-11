@@ -111,7 +111,7 @@ const exportData = async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (error) {
-    console.error('Error exporting data:', error);
+    // console.error('Error exporting data:', error);
     alert('Failed to export data. Please try again.');
   }
 };
@@ -147,7 +147,7 @@ const deleteAccount = async () => {
     
     emit('logout');
   } catch (error) {
-    console.error('Error deleting account:', error);
+    // console.error('Error deleting account:', error);
     alert('Failed to delete account. Please try again.');
   }
 };
