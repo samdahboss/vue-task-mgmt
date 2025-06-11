@@ -29,6 +29,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { path: "/settings", component: SettingsView, meta: { requiresAuth: true } },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: LandingView // or create a NotFound component
+  }
 ];
 
 const router = createRouter({
