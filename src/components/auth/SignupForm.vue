@@ -76,6 +76,8 @@ const emit = defineEmits(["signup-success", "error"]);
 
 // Handle signup submission
 const handleSignUp = async () => {
+  const API_URL = import.meta.env.VITE_BASE_API_URL;
+
   validated.value = true;
 
   // Form validation
@@ -87,34 +89,36 @@ const handleSignUp = async () => {
 
   try {
     // Check if email already exists
-    const { data: existingUsers } = await axios.get(
-      "https://683b92ba28a0b0f2fdc4f63d.mockapi.io/users",
-      {
-        params: { email: email.value },
-      }
-    );
+    const { data: existingUsers } = await axios.get(`${API_URL}/users`);
 
     if (existingUsers.length) {
-      emit("error", "Email already exists. Please log in instead.");
-      isLoading.value = false;
-      return;
+      const userExists = existingUsers.some(
+        (user) => user.email.toLowerCase() === email.value.toLowerCase()
+      );
+      if (userExists) {
+        emit("error", "Email already exists. Please log in instead.");
+        isLoading.value = false;
+        return;
+      }
     }
 
     // Create new user
-    const { data: newUser } = await axios.post(
-      "https://683b92ba28a0b0f2fdc4f63d.mockapi.io/users",
-      {
-        name: name.value,
-        email: email.value,
-        password: password.value,
-      }
-    );
+    const { data: newUser } = await axios.post(`${API_URL}/users`, {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    });
 
     // Login the new user
     auth.login(newUser);
     emit("signup-success", newUser);
   } catch (e) {
-    emit("error", "Registration failed. Please try again.");
+    console.error("API Error:", e);
+    emit(
+      "error",
+      e.response?.data?.message ||
+        "Network error. Please check your connection and try again."
+    );
   } finally {
     isLoading.value = false;
   }

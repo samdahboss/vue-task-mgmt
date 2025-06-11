@@ -70,10 +70,13 @@ const getPriorityBadgeClass = (priority) => {
   }
 };
 
+const API_URL = import.meta.env.VITE_BASE_API_URL;
+
 const fetchTasks = async () => {
   loading.value = true;
+
   try {
-    const { data } = await axios.get('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
+    const { data } = await axios.get(`${API_URL}/tasks`, {
       params: { userId: auth.user.id }
     });
     tasks.value = data;
@@ -93,7 +96,7 @@ onMounted(() => {
 // Mark task as complete
 const markComplete = async (task) => {
   try {
-    await axios.put(`https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks/${task.id}`, { 
+    await axios.put(`${API_URL}/tasks/${task.id}`, { 
       ...task, 
       completed: true 
     });
@@ -126,10 +129,10 @@ const saveTask = async (taskData) => {
   try {
     if (taskData.id) {
       // Update existing task
-      await axios.put(`https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks/${taskData.id}`, taskData);
+      await axios.put(`${API_URL}/tasks/${taskData.id}`, taskData);
     } else {
       // Create new task
-      await axios.post('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
+      await axios.post(`${API_URL}/tasks`, {
         ...taskData,
         completed: false,
         userId: auth.user.id
@@ -156,7 +159,7 @@ const closeDeleteConfirmationModal = () => {
 // Confirm task deletion
 const confirmDeleteTask = async (task) => {
   try {
-    await axios.delete(`https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks/${task.id}`);
+    await axios.delete(`${API_URL}/tasks/${task.id}`);
     fetchTasks();
   } catch (error) {
     console.error('Error deleting task:', error);

@@ -1,9 +1,5 @@
 <template>
-  <form
-    @submit.prevent="handleLogin"
-    novalidate
-    :class="{ 'was-validated': validated }"
-  >
+  <form @submit.prevent="handleLogin" novalidate :class="{ 'was-validated': validated }">
     <div class="form-floating mb-3" data-aos="fade-up" data-aos-delay="100">
       <input
         v-model="email"
@@ -38,7 +34,12 @@
       data-aos-delay="300"
       :disabled="isLoading"
     >
-      <span v-if="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      <span
+        v-if="isLoading"
+        class="spinner-border spinner-border-sm me-2"
+        role="status"
+        aria-hidden="true"
+      ></span>
       Log In
     </button>
   </form>
@@ -57,35 +58,34 @@ const isLoading = ref(false);
 const auth = useAuthStore();
 
 // Define emits
-const emit = defineEmits(['login-success', 'error']);
+const emit = defineEmits(["login-success", "error"]);
 
 // Handle login submission
 const handleLogin = async () => {
+  const API_URL = import.meta.env.VITE_BASE_API_URL;
+
   validated.value = true;
-  
+
   // Form validation
   if (!email.value || password.value.length < 6) {
     return;
   }
 
   isLoading.value = true;
-  
+
   try {
-    const { data } = await axios.get(
-      "https://683b92ba28a0b0f2fdc4f63d.mockapi.io/users",
-      {
-        params: { email: email.value, password: password.value },
-      }
-    );
-    
+    const { data } = await axios.get(`${API_URL}/users`, {
+      params: { email: email.value, password: password.value },
+    });
+
     if (data.length) {
       auth.login(data[0]);
-      emit('login-success');
+      emit("login-success");
     } else {
-      emit('error', 'Invalid credentials.');
+      emit("error", "Invalid credentials.");
     }
   } catch (e) {
-    emit('error', 'Login failed. Try again.');
+    emit("error", "Login failed. Try again.");
   } finally {
     isLoading.value = false;
   }

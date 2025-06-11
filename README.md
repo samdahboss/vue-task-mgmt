@@ -27,7 +27,7 @@ A modern, responsive Vue 3 + Vite task management app styled with Bootstrap 5 an
 
 ## API
 
-Uses [MockAPI](https://683b92ba28a0b0f2fdc4f63d.mockapi.io/) for users and tasks resources.
+Uses [MockAPI](${API_URL}/) for users and tasks resources.
 
 ---
 

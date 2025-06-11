@@ -114,8 +114,10 @@ const formatDateTime = (dateString) => {
 
 const fetchCompletedTasks = async () => {
   loading.value = true;
+  const API_URL = import.meta.env.VITE_BASE_API_URL;
+
   try {
-    const { data } = await axios.get('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
+    const { data } = await axios.get(`${API_URL}/tasks`, {
       params: { userId: auth.user.id, completed: true }
     });
     tasks.value = data;

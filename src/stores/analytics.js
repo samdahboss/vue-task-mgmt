@@ -42,7 +42,9 @@ export const useAnalyticsStore = defineStore("analytics", () => {
       ) || 1;
     return {
       High: Math.round((taskMetrics.value.tasksByPriority.High / total) * 100),
-      Medium: Math.round((taskMetrics.value.tasksByPriority.Medium / total) * 100),
+      Medium: Math.round(
+        (taskMetrics.value.tasksByPriority.Medium / total) * 100
+      ),
       Low: Math.round((taskMetrics.value.tasksByPriority.Low / total) * 100),
     };
   });
@@ -54,7 +56,9 @@ export const useAnalyticsStore = defineStore("analytics", () => {
     Object.entries(taskMetrics.value.tasksByMonth || {})
       .sort(([monthA], [monthB]) => new Date(monthA) - new Date(monthB))
       .forEach(([month, count]) => {
-        months.push(new Date(month).toLocaleString("default", { month: "short" }));
+        months.push(
+          new Date(month).toLocaleString("default", { month: "short" })
+        );
         counts.push(count);
       });
 
@@ -63,18 +67,17 @@ export const useAnalyticsStore = defineStore("analytics", () => {
 
   // Actions
   async function fetchAnalytics(userId) {
+    const API_URL = import.meta.env.VITE_BASE_API_URL;
+    
     if (!userId) return;
 
     isLoading.value = true;
     error.value = null;
 
     try {
-      const { data } = await axios.get(
-        "https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks",
-        {
-          params: { userId },
-        }
-      );
+      const { data } = await axios.get(`${API_URL}/tasks`, {
+        params: { userId },
+      });
 
       calculateMetrics(data);
     } catch (err) {
@@ -130,7 +133,8 @@ export const useAnalyticsStore = defineStore("analytics", () => {
       });
 
     taskMetrics.value.avgCompletionTime = completionTimes.length
-      ? completionTimes.reduce((sum, time) => sum + time, 0) / completionTimes.length
+      ? completionTimes.reduce((sum, time) => sum + time, 0) /
+        completionTimes.length
       : 0;
 
     // Tasks by month

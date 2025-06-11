@@ -71,6 +71,8 @@ const auth = useAuthStore();
 const deleteConfirmation = ref('');
 let deleteModal = null;
 
+const API_URL = import.meta.env.VITE_BASE_API_URL;
+
 onMounted(() => {
   // Initialize Bootstrap modal
   if (typeof bootstrap !== 'undefined') {
@@ -81,12 +83,21 @@ onMounted(() => {
 // Export user data as JSON
 const exportData = async () => {
   try {
-    const { data } = await axios.get('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
+    const { data } = await axios.get(`${API_URL}/tasks`, {
       params: { userId: auth.user.id }
     });
-    
+
+    // Filter out sensitive information
+    const filteredTasks = data.map(({ id, title, description, dueDate, priority }) => ({
+      id,
+      title,
+      description,
+      dueDate,
+      priority
+    }));
+
     // Create and download JSON file
-    const jsonData = JSON.stringify({ user: auth.user, tasks: data }, null, 2);
+    const jsonData = JSON.stringify({ user: auth.user, tasks: filteredTasks }, null, 2);
     const blob = new Blob([jsonData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     
@@ -117,17 +128,17 @@ const confirmDeleteAccount = () => {
 const deleteAccount = async () => {
   try {
     // First delete all user tasks
-    const { data: tasks } = await axios.get('https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks', {
+    const { data: tasks } = await axios.get(`${API_URL}/tasks`, {
       params: { userId: auth.user.id }
     });
     
     // Delete each task
     for (const task of tasks) {
-      await axios.delete(`https://683b92ba28a0b0f2fdc4f63d.mockapi.io/tasks/${task.id}`);
+      await axios.delete(`${API_URL}/tasks/${task.id}`);
     }
     
     // Delete user account
-    await axios.delete(`https://683b92ba28a0b0f2fdc4f63d.mockapi.io/users/${auth.user.id}`);
+    await axios.delete(`${API_URL}/users/${auth.user.id}`);
     
     // Close modal and logout
     if (deleteModal) {
